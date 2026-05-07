@@ -15,5 +15,5 @@ struct GeoType {
 struct Entry {
   std::variant<std::string, std::deque<std::string>, std::unordered_set<std::string>, std::unordered_map<std::string, GeoType>> value;
   std::optional<std::chrono::steady_clock::time_point> expires_at;
-  std::size_t mem_;
+  std::size_t mem_ = 0;
 };
