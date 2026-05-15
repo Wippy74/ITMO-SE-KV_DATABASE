@@ -7,6 +7,9 @@
 #include <optional>
 #include <chrono>
 
+template<class... Ts>
+struct overloaded : Ts... { using Ts::operator()...; };
+
 struct GeoType {
   double longitude;
   double latitude;
