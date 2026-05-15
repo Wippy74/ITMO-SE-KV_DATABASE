@@ -2,9 +2,9 @@
 #include <string>
 #include <vector>
 
-struct Commands {
+struct Command {
   std::string name;
   std::vector<std::string> args;
 };
 
-Commands ParseCommand(const std::string& line);
+Command ParseCommand(const std::string& line);
