@@ -22,7 +22,7 @@ public:
       };
       return MakeSize(args[1].size());
     }
-    auto* str = std::get_if<std::string>(&entry->value);
+    auto* str = CheckType<std::string>(db, args[0]);
     if (!str) {
       ErrWrongType();
       return std::nullopt;
