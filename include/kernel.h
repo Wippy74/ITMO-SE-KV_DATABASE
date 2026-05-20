@@ -13,12 +13,13 @@ public:
   
   Entry* GetEntry(const std::string& key);
   std::vector<std::string> Keys() const;
-  std::size_t Size() const;
+  std::vector<std::string> LiveKeys() const;
+  size_t Size() const;
   void FlushDB();
 
-  static std::size_t CountEntryMemory(const std::string& key, const Entry& entry);
+  static size_t CountEntryMemory(const std::string& key, const Entry& entry);
   void RecountEntry(const std::string& key);
-  bool RequireMemory(std::size_t extra) const;
+  bool RequireMemory(size_t extra) const;
 
   MemoryDispatcher& Memory() {
     return memory_;

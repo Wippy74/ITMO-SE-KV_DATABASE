@@ -18,7 +18,7 @@ T* CheckType(DataBase& db, const std::string& key) {
 
 inline bool ParseNum(const std::string& str, long long& output) {
   try {
-    std::size_t idx = 0;
+    size_t idx = 0;
     output = std::stoll(str, &idx);
     return idx == str.size();
   } catch (...) {
@@ -28,7 +28,7 @@ inline bool ParseNum(const std::string& str, long long& output) {
 
 inline bool ParseDouble(const std::string& str, double& output) {
   try {
-    std::size_t idx = 0;
+    size_t idx = 0;
     output = std::stod(str, &idx);
     return idx == str.size();
   } catch (...) {
