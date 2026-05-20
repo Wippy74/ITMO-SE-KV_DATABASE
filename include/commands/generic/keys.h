@@ -15,8 +15,8 @@ public:
       return std::nullopt;
     }
     std::vector<std::string> matched;
-    for (auto& k : db.Keys()) {
-      if (db.GetEntry(k) && PatternMatch(args[0], k)) {
+    for (const auto& k : db.LiveKeys()) {
+      if (PatternMatch(args[0], k)) {
         matched.push_back(k);
       }
     }
