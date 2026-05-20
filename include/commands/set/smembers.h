@@ -19,7 +19,6 @@ public:
       return MakeArray({});
     }
     std::vector<std::string> members(set->begin(), set->end());
-    std::sort(members.begin(), members.end());
     return MakeArray(std::move(members));
   }
 };

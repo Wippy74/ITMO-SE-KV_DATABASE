@@ -31,7 +31,6 @@ public:
       result = std::move(tmp);
     }
     std::vector<std::string> v(result.begin(), result.end());
-    std::sort(v.begin(), v.end());
     return MakeArray(std::move(v));
   }
 };
