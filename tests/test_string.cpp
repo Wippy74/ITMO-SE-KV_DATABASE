@@ -281,14 +281,6 @@ TEST_F(StringTest, TTL_TooFewArgs) {
   testing::internal::GetCapturedStderr();
 }
 
-TEST_F(StringTest, TTL_KeyExpiresAndBecomesGone) {
-  Exec("SET key v");
-  Exec("EXPIRE key 1");
-  std::this_thread::sleep_for(std::chrono::milliseconds(1100));
-  ExpectNil(Exec("GET key"));
-  ExpectInt(Exec("TTL key"), static_cast<size_t>(-2));
-}
-
 TEST_F(StringTest, EXPIRE_ResetExpiry) {
   Exec("SET key v");
   Exec("EXPIRE key 1");

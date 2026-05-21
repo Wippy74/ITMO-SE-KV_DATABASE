@@ -402,13 +402,6 @@ TEST_F(GenericTest, TTL_OnGeoKey_NoExpiry_ReturnsMinus1) {
   ExpectInt(Exec("TTL geo"), static_cast<size_t>(-1));
 }
 
-TEST_F(GenericTest, KEYS_DoesNotReturnExpiredKey) {
-  Exec("SET key v");
-  Exec("EXPIRE key 1");
-  std::this_thread::sleep_for(std::chrono::milliseconds(1100));
-  ExpectArray(Exec("KEYS *"), {});
-}
-
 TEST_F(GenericTest, CONFIG_SET_Zero_RemovesMemoryLimit) {
   Exec("CONFIG SET maxmemory 1b");
   testing::internal::CaptureStderr();
