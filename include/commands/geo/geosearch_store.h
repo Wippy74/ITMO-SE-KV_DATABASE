@@ -31,6 +31,10 @@ public:
       return std::nullopt;
     }
     auto names = RunGeoSearch(*map, p);
+    if (names.empty()) {
+      db.DelEntry(dst);
+      return MakeSize(0);
+    }
     std::unordered_map<std::string, GeoType> result;
     for (const auto& name : names) {
       result[name] = (*map)[name];
