@@ -82,3 +82,30 @@ inline void DelEmpty(DataBase& db, const std::string& key) {
     db.DelEntry(key);
   }
 }
+
+inline void PrintResult(const ReturnResult& result) {
+  std::visit(overloaded{
+    [](ExitSignal) {},
+    [](NilResult) {
+      std::cout << "(nil)\n";
+    },
+    [](size_t n) {
+      std::cout << "(integer) " << n << '\n';
+    },
+    [](const SimpleString& s) {
+      std::cout << s.value << '\n';
+    },
+    [](const ResString& s) {
+      std::cout << '"' << s.value << '"' << '\n';
+    },
+    [](const std::vector<std::string>& v) {
+      if (v.empty()) {
+        std::cout << "(empty list or set)\n";
+        return;
+      }
+      for (size_t i = 0; i < v.size(); ++i) {
+        std::cout << (i + 1) << ") \"" << v[i] << "\"\n";
+      }
+    },
+  }, result);
+}
