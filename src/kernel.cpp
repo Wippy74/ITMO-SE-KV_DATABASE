@@ -2,8 +2,8 @@
 #include <algorithm>
 #include <iostream>
 
-std::size_t DataBase::CountEntryMemory(const std::string& key,const Entry& entry) {
-  std::size_t size = key.capacity() + sizeof(Entry) + 64;
+size_t DataBase::CountEntryMemory(const std::string& key,const Entry& entry) {
+  size_t size = key.capacity() + sizeof(Entry) + 64;
   std::visit(overloaded{
     [&](const std::string& s) {
       size += s.capacity();
@@ -31,11 +31,15 @@ std::size_t DataBase::CountEntryMemory(const std::string& key,const Entry& entry
 }
 
 bool DataBase::SetEntry(const std::string& key, Entry entry) {
+  if (memory_.GetMax() == 0) {
+    storage_[key] = std::move(entry);
+    return true;
+  }
   auto it = storage_.find(key);
   if (it != storage_.end()) {
     memory_.Sub(it->second.mem_);
   }
-  std::size_t newSize = CountEntryMemory(key, entry);
+  size_t newSize = CountEntryMemory(key, entry);
   if (!memory_.CanAllocate(newSize)) {
     if (it != storage_.end()) {
       memory_.Add(it->second.mem_);
@@ -73,12 +77,15 @@ Entry* DataBase::GetEntry(const std::string& key) {
 }
 
 void DataBase::RecountEntry(const std::string& key) {
+  if (memory_.GetMax() == 0) {
+    return;
+  }
   auto it = storage_.find(key);
   if (it == storage_.end()) {
     return;
   }
-  std::size_t oldMem = it->second.mem_;
-  std::size_t newMem = CountEntryMemory(key, it->second);
+  size_t oldMem = it->second.mem_;
+  size_t newMem = CountEntryMemory(key, it->second);
   it->second.mem_ = newMem;
   if (newMem > oldMem) {
     memory_.Add(newMem - oldMem);
@@ -87,7 +94,7 @@ void DataBase::RecountEntry(const std::string& key) {
   }
 }
 
-bool DataBase::RequireMemory(std::size_t extra) const {
+bool DataBase::RequireMemory(size_t extra) const {
   if (memory_.CanAllocate(extra)) {
     return true;
   }
@@ -104,7 +111,18 @@ std::vector<std::string> DataBase::Keys() const {
   return res;
 }
 
-std::size_t DataBase::Size() const {
+std::vector<std::string> DataBase::LiveKeys() const {
+  std::vector<std::string> res;
+  res.reserve(storage_.size());
+  for (const auto& [key, entry] : storage_) {
+    if (!IsExpired(entry)) {
+      res.push_back(key);
+    }
+  }
+  return res;
+}
+
+size_t DataBase::Size() const {
   return storage_.size();
 }
 
