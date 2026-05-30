@@ -28,5 +28,5 @@ public:
   }
 private:
   size_t used_ = 0;
-  size_t max_;
+  size_t max_ = 0;
 };

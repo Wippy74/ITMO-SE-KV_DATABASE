@@ -90,7 +90,7 @@ inline void PrintResult(const ReturnResult& result) {
       std::cout << "(nil)\n";
     },
     [](size_t n) {
-      std::cout << "(integer) " << n << '\n';
+      std::cout << "(integer) " << static_cast<long long>(n) << '\n';
     },
     [](const SimpleString& s) {
       std::cout << s.value << '\n';
@@ -100,7 +100,7 @@ inline void PrintResult(const ReturnResult& result) {
     },
     [](const std::vector<std::string>& v) {
       if (v.empty()) {
-        std::cout << "(empty list or set)\n";
+        std::cout << "(empty array)\n";
         return;
       }
       for (size_t i = 0; i < v.size(); ++i) {

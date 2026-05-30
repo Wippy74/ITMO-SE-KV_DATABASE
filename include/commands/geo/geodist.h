@@ -35,7 +35,7 @@ public:
     }
     double distKm = HaversineKm(it1->second.longitude, it1->second.latitude, it2->second.longitude, it2->second.latitude);
     std::ostringstream ss;
-    ss << std::fixed << std::setprecision(4) << KmToUnit(distKm, unit);
+    ss << std::fixed << std::setprecision(2) << KmToUnit(distKm, unit);
     return MakeString(ss.str());
   }
 };

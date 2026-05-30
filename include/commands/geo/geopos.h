@@ -32,7 +32,7 @@ public:
         out += "(nil)";
       } else {
         std::ostringstream ss;
-        ss << std::fixed << std::setprecision(6);
+        ss << std::fixed << std::setprecision(2);
         ss << "1) \"" << it->second.longitude << "\"\n" << "   2) \"" << it->second.latitude << "\"";
         out += ss.str();
       }

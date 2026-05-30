@@ -14,13 +14,17 @@ public:
       return std::nullopt;
     }
     long long seconds = 0;
-    if (!ParseNum(args[1], seconds) || seconds <= 0) {
+    if (!ParseNum(args[1], seconds) || seconds < 0) {
       ErrOutOfRange();
       return std::nullopt;
     }
     Entry* entry = db.GetEntry(args[0]);
     if (!entry) {
       return MakeSize(0);
+    }
+    if (seconds == 0) {
+      db.DelEntry(args[0]);
+      return MakeSize(1);
     }
     entry->expires_at = std::chrono::steady_clock::now() + std::chrono::seconds(seconds);
     return MakeSize(1);
